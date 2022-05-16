@@ -6,6 +6,7 @@ import (
 )
 
 func main() {
+
 	db.SetpUpDbConnection()
 
 	app := fiber.New()
@@ -21,4 +22,6 @@ func main() {
 	app.Get("/api/v1/user", func(c *fiber.Ctx) error {
 		return nil
 	})
+
+	app.Listen(":3000")
 }
