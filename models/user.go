@@ -3,13 +3,14 @@ package models
 import "time"
 
 type NewUser struct {
-	Name     string
-	Email    string
-	Password string
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
 
 type User struct {
 	Id                int
+	UUID              string
 	Name              string
 	Email             string
 	Password          string
