@@ -42,5 +42,26 @@ func main() {
 		return nil
 	})
 
+	app.Delete("/api/v1/user", func(c *fiber.Ctx) error {
+
+		req := models.DeleteUserRequest{}
+
+		err := c.BodyParser(&req)
+		if err != nil {
+			return err
+		}
+
+		err = db.DeleteUser(req)
+		if err != nil {
+			return err
+		}
+
+		resp := models.BaseResponse{
+			Success: true,
+		}
+
+		return c.JSON(resp)
+	})
+
 	app.Listen(":3000")
 }

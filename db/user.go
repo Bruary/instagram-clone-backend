@@ -29,3 +29,23 @@ func CreateNewUser(req models.NewUser) error {
 
 	return nil
 }
+
+func DeleteUser(req models.DeleteUserRequest) error {
+
+	deleteUserCmd := fmt.Sprintf("DELETE FROM users where uid = '%s';", req.Uid)
+
+	fmt.Println("query: ", deleteUserCmd)
+
+	db := GetDb()
+
+	_, err := db.Exec(deleteUserCmd)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func DeactivateUser() error {
+	return nil
+}
