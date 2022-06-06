@@ -30,9 +30,27 @@ func CreateNewUser(req models.NewUser) error {
 	return nil
 }
 
+func GetUser(req models.GetUserRequest) (models.User, error) {
+
+	getUserCmd := fmt.Sprintf("SELECT * from users where uid = '%s';", req.Uid)
+
+	fmt.Println("query: ", getUserCmd)
+
+	db := GetDb()
+
+	resp := models.User{}
+
+	err := db.QueryRow(getUserCmd).Scan(&resp.Id, &resp.UUID, &resp.Name, &resp.Email, &resp.Password, &resp.Profile_image_url, &resp.Profile_public_id, &resp.Active, &resp.Verified_at, &resp.Created_at, &resp.Updated_at, &resp.Deleted_at)
+	if err != nil {
+		return resp, err
+	}
+
+	return resp, nil
+}
+
 func DeleteUser(req models.DeleteUserRequest) error {
 
-	deleteUserCmd := fmt.Sprintf("DELETE FROM users where uid = '%s';", req.Uid)
+	deleteUserCmd := fmt.Sprintf("DELETE FROM users WHERE uid = '%s';", req.Uid)
 
 	fmt.Println("query: ", deleteUserCmd)
 
@@ -46,6 +64,18 @@ func DeleteUser(req models.DeleteUserRequest) error {
 	return nil
 }
 
-func DeactivateUser() error {
+func DeactivateUser(req models.DeactivateUserRequest) error {
+
+	deactivateUserCmd := fmt.Sprintf("UPDATE users SET active = false WHERE uid = '%s';", req.Uid)
+
+	fmt.Println("query: ", deactivateUserCmd)
+
+	db := GetDb()
+
+	_, err := db.Exec(deactivateUserCmd)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

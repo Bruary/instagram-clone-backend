@@ -39,7 +39,41 @@ func main() {
 	})
 
 	app.Get("/api/v1/user", func(c *fiber.Ctx) error {
-		return nil
+
+		req := models.GetUserRequest{}
+
+		err := c.BodyParser(&req)
+		if err != nil {
+			return err
+		}
+
+		resp, err := db.GetUser(req)
+		if err != nil {
+			return err
+		}
+
+		return c.JSON(resp)
+	})
+
+	app.Post("/api/v1/user/deactivate", func(c *fiber.Ctx) error {
+
+		req := models.DeactivateUserRequest{}
+
+		err := c.BodyParser(&req)
+		if err != nil {
+			return err
+		}
+
+		err = db.DeactivateUser(req)
+		if err != nil {
+			return err
+		}
+
+		resp := models.BaseResponse{
+			Success: true,
+		}
+
+		return c.JSON(resp)
 	})
 
 	app.Delete("/api/v1/user", func(c *fiber.Ctx) error {
