@@ -2,12 +2,6 @@ package models
 
 import "time"
 
-type NewUser struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
-
 type User struct {
 	Id                int
 	UUID              string
@@ -21,4 +15,17 @@ type User struct {
 	Created_at        time.Time
 	Updated_at        time.Time
 	Deleted_at        time.Time
+}
+type NewUser struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type DeleteUserRequest struct {
+	Uid string
+}
+
+type DeactivateUserRequest struct {
+	Uid string
 }
